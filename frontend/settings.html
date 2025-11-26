@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Personal Finance Chatbot</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>💰 Personal Finance Chatbot</h1>
+            <nav>
+                <a href="index.html">Dashboard</a>
+                <a href="chat.html">Chat</a>
+                <a href="budget.html">Budget Summary</a>
+                <a href="insights.html">Spending Insights</a>
+                <a href="settings.html">Settings</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>⚙️ Settings & Configuration</h2>
+            <p class="text-secondary mb-2">Configure your preferences and view system information.</p>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">User Preferences</h3>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="defaultPersona">Default Persona</label>
+                        <select id="defaultPersona" onchange="saveSettings()">
+                            <option value="">No Default (Ask each time)</option>
+                            <option value="student">🎓 Student</option>
+                            <option value="salaried">💼 Salaried Professional</option>
+                            <option value="parent">👨‍👩‍👧 Parent</option>
+                            <option value="freelancer">💻 Freelancer</option>
+                            <option value="retiree">🏖️ Retiree</option>
+                        </select>
+                        <small class="text-secondary">This persona will be used by default in the chat
+                            interface.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="currency">Preferred Currency</label>
+                        <select id="currency" onchange="saveSettings()">
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="INR">INR (₹)</option>
+                            <option value="CAD">CAD ($)</option>
+                            <option value="AUD">AUD ($)</option>
+                        </select>
+                    </div>
+
+                    <div class="alert alert-success">
+                        <strong>✅ Settings saved locally</strong><br>
+                        Your preferences are stored in your browser.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">System Information</h3>
+                    </div>
+
+                    <div class="mb-1">
+                        <h4 style="font-size: 1rem;">Environment Mode</h4>
+                        <p class="text-secondary">Current mode: <span id="envMode"
+                                class="badge badge-warning">Loading...</span></p>
+                        <small class="text-secondary">Set via <code>APP_ENV</code> in backend .env file</small>
+                    </div>
+
+                    <div class="mb-1">
+                        <h4 style="font-size: 1rem;">Active Model</h4>
+                        <p class="text-secondary">Model: <span id="activeModel"
+                                class="badge badge-success">Loading...</span></p>
+                        <small class="text-secondary">The AI model currently being used for responses</small>
+                    </div>
+
+                    <div class="mb-1">
+                        <h4 style="font-size: 1rem;">API Status</h4>
+                        <p class="text-secondary">Status: <span id="apiStatus"
+                                class="badge badge-warning">Checking...</span></p>
+                        <button class="btn btn-outline mt-1" onclick="checkHealth()">Refresh Status</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h3 class="card-title">Persona Descriptions</h3>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="mb-1">
+                        <h4 style="font-size: 1rem;">🎓 Student</h4>
+                        <p class="text-secondary">College student with limited income, student loans, and learning to
+                            manage money. Focus on budgeting basics, student discounts, and building good habits.</p>
+                    </div>
+
+                    <div class="mb-1">
+                        <h4 style="font-size: 1rem;">💼 Salaried Professional</h4>
+                        <p class="text-secondary">Professional with steady income, employer benefits, and career growth.
+                            Focus on 401(k) optimization, investment strategies, and wealth building.</p>
+                    </div>
+
+                    <div class="mb-1">
+                        <h4 style="font-size: 1rem;">👨‍👩‍👧 Parent</h4>
+                        <p class="text-secondary">Parent managing family finances, children's education, and long-term
+                            planning. Focus on college savings, family budgeting, and insurance.</p>
+                    </div>
+
+                    <div class="mb-1">
+                        <h4 style="font-size: 1rem;">💻 Freelancer</h4>
+                        <p class="text-secondary">Freelancer with variable income, self-employment taxes, and irregular
+                            cash flow. Focus on tax planning, emergency funds, and income smoothing.</p>
+                    </div>
+
+                    <div class="mb-1">
+                        <h4 style="font-size: 1rem;">🏖️ Retiree</h4>
+                        <p class="text-secondary">Retiree living on fixed income, managing retirement savings, and
+                            healthcare costs. Focus on withdrawal strategies, healthcare planning, and estate planning.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-2">
+                <div class="card-header">
+                    <h3 class="card-title">About This Application</h3>
+                </div>
+
+                <p><strong>Version:</strong> 1.0.0</p>
+                <p><strong>Backend:</strong> FastAPI with Python</p>
+                <p><strong>Frontend:</strong> Vanilla HTML/CSS/JavaScript with Chart.js</p>
+                <p><strong>AI Models:</strong></p>
+                <ul style="margin-left: 1.5rem;">
+                    <li><strong>Production:</strong> Groq Llama 3.3 70B Versatile (cloud) or IBM Granite via Ollama
+                        (local)</li>
+                    <li><strong>Development:</strong> Deterministic mock client (no API keys required)</li>
+                </ul>
+
+                <div class="alert alert-warning mt-2">
+                    <strong>⚠️ Disclaimer:</strong> This application provides general financial information for
+                    educational purposes only. It is not a substitute for professional financial advice. Always consult
+                    with a qualified financial advisor for personalized guidance.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/static/app.js"></script>
+    <script>
+        // Load saved settings
+        function loadSettings() {
+            const persona = localStorage.getItem('defaultPersona') || '';
+            const currency = localStorage.getItem('currency') || 'USD';
+
+            document.getElementById('defaultPersona').value = persona;
+            document.getElementById('currency').value = currency;
+        }
+
+        // Save settings
+        function saveSettings() {
+            const persona = document.getElementById('defaultPersona').value;
+            const currency = document.getElementById('currency').value;
+
+            localStorage.setItem('defaultPersona', persona);
+            localStorage.setItem('currency', currency);
+        }
+
+        // Check API health
+        async function checkHealth() {
+            const statusBadge = document.getElementById('apiStatus');
+            const envBadge = document.getElementById('envMode');
+            const modelBadge = document.getElementById('activeModel');
+
+            statusBadge.textContent = 'Checking...';
+            statusBadge.className = 'badge badge-warning';
+
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+
+                if (data.status === 'healthy') {
+                    statusBadge.textContent = 'Healthy ✓';
+                    statusBadge.className = 'badge badge-success';
+
+                    envBadge.textContent = data.environment.toUpperCase();
+                    envBadge.className = data.environment === 'local' ? 'badge badge-warning' : 'badge badge-success';
+
+                    modelBadge.textContent = data.model;
+                    modelBadge.className = 'badge badge-success';
+                } else {
+                    throw new Error('Unhealthy');
+                }
+            } catch (error) {
+                statusBadge.textContent = 'Error ✗';
+                statusBadge.className = 'badge badge-danger';
+                envBadge.textContent = 'Unknown';
+                modelBadge.textContent = 'Unknown';
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function () {
+            loadSettings();
+            checkHealth();
+        });
+    </script>
+</body>
+
+</html>

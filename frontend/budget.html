@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Summary - Personal Finance Chatbot</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>💰 Personal Finance Chatbot</h1>
+            <nav>
+                <a href="/">Dashboard</a>
+                <a href="/chat.html">Chat</a>
+                <a href="/budget.html">Budget Summary</a>
+                <a href="/insights.html">Spending Insights</a>
+                <a href="/settings.html">Settings</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>📊 Budget Summary Analysis</h2>
+            <p class="text-secondary mb-2">Enter your monthly income and expenses to get AI-powered budget analysis with
+                personalized suggestions.</p>
+
+            <form id="budgetForm" onsubmit="submitBudgetForm(event)">
+                <div class="grid grid-2 mb-2">
+                    <!-- Income Section -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">💵 Monthly Income</h3>
+                        </div>
+
+                        <fieldset>
+                            <legend class="sr-only">Income Sources</legend>
+
+                            <div class="form-group">
+                                <label for="baseSalary">Base Salary (₹)</label>
+                                <input type="number" id="baseSalary" name="baseSalary" min="0" step="0.01"
+                                    placeholder="50000" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="sideIncome">Side Income (₹)</label>
+                                <input type="number" id="sideIncome" name="sideIncome" min="0" step="0.01"
+                                    placeholder="5000" value="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="otherIncome">Other Income (₹)</label>
+                                <input type="number" id="otherIncome" name="otherIncome" min="0" step="0.01"
+                                    placeholder="2000" value="0">
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <!-- Savings Section -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">🎯 Savings Goals</h3>
+                        </div>
+
+                        <fieldset>
+                            <legend class="sr-only">Savings Information</legend>
+
+                            <div class="form-group">
+                                <label for="currentSavings">Current Savings (₹)</label>
+                                <input type="number" id="currentSavings" name="currentSavings" min="0" step="0.01"
+                                    placeholder="20000" value="0">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="savingsGoal">Monthly Savings Goal (₹)</label>
+                                <input type="number" id="savingsGoal" name="savingsGoal" min="0" step="0.01"
+                                    placeholder="10000" value="0">
+                            </div>
+
+                            <div class="alert alert-success mt-1">
+                                <strong>💡 Tip:</strong> Aim to save at least 20% of your monthly income for a healthy
+                                financial future.
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <!-- Expenses Section -->
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <h3 class="card-title">💳 Monthly Expenses</h3>
+                    </div>
+
+                    <fieldset>
+                        <legend class="sr-only">Expense Breakdown</legend>
+
+                        <div style="overflow-x: auto;">
+                            <table class="expense-table" id="expenseTable">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Amount (₹)</th>
+                                        <th>Frequency</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="expenseTableBody">
+                                    <!-- Default row -->
+                                    <tr>
+                                        <td>
+                                            <select class="expense-category" required>
+                                                <option value="">Select Category</option>
+                                                <option value="Rent">🏠 Rent</option>
+                                                <option value="Groceries">🛒 Groceries</option>
+                                                <option value="Utilities">💡 Utilities</option>
+                                                <option value="Transport">🚗 Transport</option>
+                                                <option value="EMIs/Loans">🏦 EMIs/Loans</option>
+                                                <option value="Entertainment">🎬 Entertainment</option>
+                                                <option value="Education">📚 Education</option>
+                                                <option value="Healthcare">🏥 Healthcare</option>
+                                                <option value="Savings/Investments">💰 Savings/Investments</option>
+                                                <option value="Other">📦 Other</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="expense-amount" min="0" step="0.01"
+                                                placeholder="0" required>
+                                        </td>
+                                        <td>
+                                            <select class="expense-frequency" required>
+                                                <option value="Monthly">Monthly</option>
+                                                <option value="Weekly">Weekly</option>
+                                                <option value="One-time">One-time</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn-icon" onclick="deleteExpenseRow(this)"
+                                                title="Delete row">
+                                                ❌
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <button type="button" class="btn btn-outline mt-1" onclick="addExpenseRow()">
+                            ➕ Add Expense Row
+                        </button>
+                    </fieldset>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.75rem 2rem;">
+                        📊 Analyze My Budget
+                    </button>
+                </div>
+            </form>
+
+            <!-- Results Section -->
+            <div id="budgetResult" class="mt-2"></div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/static/app.js"></script>
+    <script>
+        // INR Currency Formatter
+        const inrFormatter = new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
+
+        // Add expense row
+        function addExpenseRow() {
+            const tbody = document.getElementById('expenseTableBody');
+            const newRow = tbody.rows[0].cloneNode(true);
+
+            // Clear values
+            newRow.querySelectorAll('input').forEach(input => input.value = '');
+            newRow.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+
+            tbody.appendChild(newRow);
+        }
+
+        // Delete expense row
+        function deleteExpenseRow(button) {
+            const tbody = document.getElementById('expenseTableBody');
+            if (tbody.rows.length > 1) {
+                button.closest('tr').remove();
+            } else {
+                alert('At least one expense row is required');
+            }
+        }
+
+        // Submit budget form
+        async function submitBudgetForm(event) {
+            event.preventDefault();
+
+            // Collect income data
+            const baseSalary = parseFloat(document.getElementById('baseSalary').value) || 0;
+            const sideIncome = parseFloat(document.getElementById('sideIncome').value) || 0;
+            const otherIncome = parseFloat(document.getElementById('otherIncome').value) || 0;
+
+            const income = {
+                "Base Salary": baseSalary,
+                "Side Income": sideIncome,
+                "Other Income": otherIncome
+            };
+
+            // Collect expense data
+            const expenses = {};
+            const rows = document.querySelectorAll('#expenseTableBody tr');
+
+            rows.forEach(row => {
+                const category = row.querySelector('.expense-category').value;
+                const amount = parseFloat(row.querySelector('.expense-amount').value) || 0;
+                const frequency = row.querySelector('.expense-frequency').value;
+
+                if (category && amount > 0) {
+                    // Convert to monthly amount
+                    let monthlyAmount = amount;
+                    if (frequency === 'Weekly') {
+                        monthlyAmount = amount * 4.33; // Average weeks per month
+                    }
+
+                    // Aggregate if category already exists
+                    if (expenses[category]) {
+                        expenses[category] += monthlyAmount;
+                    } else {
+                        expenses[category] = monthlyAmount;
+                    }
+                }
+            });
+
+            // Validate
+            if (Object.keys(expenses).length === 0) {
+                alert('Please add at least one expense with a valid category and amount');
+                return;
+            }
+
+            // Prepare payload
+            const payload = {
+                income: income,
+                expenses: expenses
+            };
+
+            try {
+                showLoading('budgetResult');
+
+                const response = await fetch('/api/budget-summary', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to analyze budget');
+                }
+
+                const data = await response.json();
+                displayBudgetResult(data);
+
+            } catch (error) {
+                showError('budgetResult', error.message);
+            }
+        }
+
+        // Display budget result
+        function displayBudgetResult(data) {
+            const resultDiv = document.getElementById('budgetResult');
+
+            const savingsColor = data.savings_rate >= 20 ? 'success' :
+                data.savings_rate >= 10 ? 'warning' : 'danger';
+
+            let html = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📈 Your Budget Analysis</h3>
+                    </div>
+                    
+                    <div class="grid grid-3 mb-2">
+                        <div class="stat-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                            <div class="stat-label">Total Monthly Income</div>
+                            <div class="stat-value">${inrFormatter.format(data.total_income)}</div>
+                        </div>
+                        
+                        <div class="stat-card" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+                            <div class="stat-label">Total Monthly Expenses</div>
+                            <div class="stat-value">${inrFormatter.format(data.total_expenses)}</div>
+                        </div>
+                        
+                        <div class="stat-card" style="background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);">
+                            <div class="stat-label">Savings Rate</div>
+                            <div class="stat-value">${data.savings_rate.toFixed(1)}%</div>
+                            <span class="badge badge-${savingsColor}" style="margin-top: 0.5rem;">
+                                ${data.savings_rate >= 20 ? 'Excellent!' : data.savings_rate >= 10 ? 'Good' : 'Needs Improvement'}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-2">
+                        <div>
+                            <h4>💰 Monthly Surplus/Deficit</h4>
+                            <div class="stat-card" style="background: ${data.total_income - data.total_expenses >= 0 ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'};">
+                                <div class="stat-value">${inrFormatter.format(data.total_income - data.total_expenses)}</div>
+                                <p style="font-size: 0.875rem; margin-top: 0.5rem;">
+                                    ${data.total_income - data.total_expenses >= 0 ? '✅ You have surplus funds!' : '⚠️ You are overspending!'}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4>📊 Expense Breakdown</h4>
+                            <div class="chart-container" style="height: 250px;">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-2">
+                        <h4>💡 AI-Powered Suggestions</h4>
+                        <ul class="suggestion-list">
+                            ${data.suggestion_list.map(s => `<li>${s}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+            resultDiv.innerHTML = html;
+
+            // Create chart
+            createCategoryChart(data.category_percentages);
+
+            // Scroll to results
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Create category chart
+        function createCategoryChart(categories) {
+            const ctx = document.getElementById('categoryChart');
+            if (!ctx) return;
+
+            const labels = Object.keys(categories);
+            const data = Object.values(categories);
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: [
+                            '#4f46e5', '#10b981', '#f59e0b', '#ef4444',
+                            '#8b5cf6', '#06b6d4', '#ec4899', '#6366f1'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return `${context.label}: ${context.parsed.toFixed(1)}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .expense-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .expense-table th,
+        .expense-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .expense-table th {
+            background-color: var(--bg-color);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .expense-table select,
+        .expense-table input {
+            width: 100%;
+            margin: 0;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.25rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-icon:hover {
+            transform: scale(1.2);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        fieldset {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</body>
+
+</html>

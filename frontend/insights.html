@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spending Insights - Personal Finance Chatbot</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <h1>💰 Personal Finance Chatbot</h1>
+      <nav>
+        <a href="/">Dashboard</a>
+        <a href="/chat.html">Chat</a>
+        <a href="/budget.html">Budget Summary</a>
+        <a href="/insights.html">Spending Insights</a>
+        <a href="/settings.html">Settings</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2>🔍 Spending Insights</h2>
+      <p class="text-secondary mb-2">Analyze your spending patterns to identify trends, red flags, and get personalized
+        recommendations.</p>
+
+      <form id="insightsForm" onsubmit="submitInsightsForm(event)">
+        <div class="grid grid-2 mb-2">
+          <!-- Month Selection -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">📅 Analysis Period</h3>
+            </div>
+
+            <div class="form-group">
+              <label for="analysisMonth">Select Month</label>
+              <input type="month" id="analysisMonth" name="analysisMonth" required>
+            </div>
+
+            <div class="alert alert-success mt-1">
+              <strong>💡 Tip:</strong> Regular monthly analysis helps you stay on top of your spending habits and make
+              better financial decisions.
+            </div>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">📊 Quick Info</h3>
+            </div>
+
+            <div class="mb-1">
+              <h4 style="font-size: 1rem;">What You'll Get</h4>
+              <ul style="margin-left: 1.5rem; font-size: 0.875rem;">
+                <li>Top spending categories with amounts</li>
+                <li>Red flags and concerning patterns</li>
+                <li>AI-powered recommendations</li>
+                <li>Visual charts and insights</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Spending Breakdown Section -->
+        <div class="card mb-2">
+          <div class="card-header">
+            <h3 class="card-title">💳 Spending Breakdown</h3>
+          </div>
+
+          <fieldset>
+            <legend class="sr-only">Monthly Spending Details</legend>
+
+            <div style="overflow-x: auto;">
+              <table class="spending-table" id="spendingTable">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Amount (₹)</th>
+                    <th>Note (Optional)</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="spendingTableBody">
+                  <!-- Default rows -->
+                  <tr>
+                    <td>
+                      <select class="spending-category" required>
+                        <option value="">Select Category</option>
+                        <option value="Groceries">🛒 Groceries</option>
+                        <option value="Dining Out">🍽️ Dining Out</option>
+                        <option value="Transport">🚗 Transport</option>
+                        <option value="Entertainment">🎬 Entertainment</option>
+                        <option value="Shopping">🛍️ Shopping</option>
+                        <option value="Healthcare">🏥 Healthcare</option>
+                        <option value="Education">📚 Education</option>
+                        <option value="Utilities">💡 Utilities</option>
+                        <option value="Rent">🏠 Rent</option>
+                        <option value="EMI">🏦 EMI</option>
+                        <option value="Subscriptions">📱 Subscriptions</option>
+                        <option value="Other">📦 Other</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="number" class="spending-amount" min="0" step="0.01" placeholder="0" required>
+                    </td>
+                    <td>
+                      <input type="text" class="spending-note" placeholder="e.g., Weekly groceries">
+                    </td>
+                    <td>
+                      <button type="button" class="btn-icon" onclick="deleteSpendingRow(this)" title="Delete row">
+                        ❌
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <button type="button" class="btn btn-outline mt-1" onclick="addSpendingRow()">
+              ➕ Add Spending Row
+            </button>
+          </fieldset>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary" style="font-size: 1.1rem; padding: 0.75rem 2rem;">
+            🔍 Get Insights
+          </button>
+        </div>
+      </form>
+
+      <!-- Results Section -->
+      <div id="insightsResult" class="mt-2"></div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="/static/app.js"></script>
+  <script>
+    // Set default month to current month
+    document.addEventListener('DOMContentLoaded', function () {
+      const monthInput = document.getElementById('analysisMonth');
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      monthInput.value = `${year}-${month}`;
+    });
+
+    // INR Currency Formatter
+    const inrFormatter = new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    });
+
+    // Add spending row
+    function addSpendingRow() {
+      const tbody = document.getElementById('spendingTableBody');
+      const newRow = tbody.rows[0].cloneNode(true);
+
+      // Clear values
+      newRow.querySelectorAll('input').forEach(input => input.value = '');
+      newRow.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+
+      tbody.appendChild(newRow);
+    }
+
+    // Delete spending row
+    function deleteSpendingRow(button) {
+      const tbody = document.getElementById('spendingTableBody');
+      if (tbody.rows.length > 1) {
+        button.closest('tr').remove();
+      } else {
+        alert('At least one spending row is required');
+      }
+    }
+
+    // Submit insights form
+    async function submitInsightsForm(event) {
+      event.preventDefault();
+
+      // Collect month
+      const month = document.getElementById('analysisMonth').value;
+
+      // Collect spending data
+      const transactions = [];
+      const rows = document.querySelectorAll('#spendingTableBody tr');
+
+      rows.forEach((row, index) => {
+        const category = row.querySelector('.spending-category').value;
+        const amount = parseFloat(row.querySelector('.spending-amount').value) || 0;
+        const note = row.querySelector('.spending-note').value;
+
+        if (category && amount > 0) {
+          transactions.push({
+            category: category,
+            amount: amount,
+            date: `${month}-${String(index + 1).padStart(2, '0')}`,
+            merchant: note || category,
+            description: note || `${category} expense`
+          });
+        }
+      });
+
+      // Validate
+      if (transactions.length === 0) {
+        alert('Please add at least one spending entry with a valid category and amount');
+        return;
+      }
+
+      // Prepare payload
+      const payload = {
+        transactions: transactions
+      };
+
+      try {
+        showLoading('insightsResult');
+
+        const response = await fetch('/api/spending-insights', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to analyze spending');
+        }
+
+        const data = await response.json();
+        displayInsightsResult(data, month);
+
+      } catch (error) {
+        showError('insightsResult', error.message);
+      }
+    }
+
+    // Display insights result
+    function displayInsightsResult(data, month) {
+      const resultDiv = document.getElementById('insightsResult');
+
+      // Calculate total spending
+      const totalSpending = data.top_categories.reduce((sum, cat) => sum + cat.amount, 0);
+
+      let html = `
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">📊 Spending Analysis for ${new Date(month + '-01').toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })}</h3>
+                    </div>
+                    
+                    <!-- Total Spending -->
+                    <div class="stat-card mb-2" style="background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);">
+                        <div class="stat-label">Total Spending</div>
+                        <div class="stat-value">${inrFormatter.format(totalSpending)}</div>
+                    </div>
+                    
+                    <!-- Top Categories -->
+                    <div class="grid grid-2 mb-2">
+                        <div>
+                            <h4>💰 Top Spending Categories</h4>
+                            <div class="chart-container" style="height: 300px;">
+                                <canvas id="topCategoriesChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4>📋 Category Breakdown</h4>
+                            <div style="max-height: 300px; overflow-y: auto;">
+                                ${data.top_categories.map((cat, index) => `
+                                    <div class="card mb-1" style="padding: 0.75rem;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <div>
+                                                <strong>${index + 1}. ${cat.category}</strong>
+                                                <div class="text-secondary" style="font-size: 0.875rem;">${cat.percentage.toFixed(1)}% of total</div>
+                                            </div>
+                                            <div style="font-size: 1.25rem; font-weight: 600; color: var(--primary-color);">
+                                                ${inrFormatter.format(cat.amount)}
+                                            </div>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Red Flags -->
+                    ${data.red_flags.length > 0 ? `
+                        <div class="mb-2">
+                            <h4>🚩 Red Flags & Warnings</h4>
+                            <div class="grid grid-2">
+                                ${data.red_flags.map(flag => `
+                                    <div class="alert alert-error">
+                                        <strong>⚠️ Warning:</strong> ${flag}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="alert alert-success mb-2">
+                            <strong>✅ Great!</strong> No major red flags detected in your spending patterns. Keep up the good work!
+                        </div>
+                    `}
+                    
+                    <!-- Recommendations -->
+                    <div>
+                        <h4>💡 AI-Powered Recommendations</h4>
+                        <ul class="suggestion-list">
+                            ${data.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+
+      resultDiv.innerHTML = html;
+
+      // Create chart
+      createTopCategoriesChart(data.top_categories);
+
+      // Scroll to results
+      resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Create top categories chart
+    function createTopCategoriesChart(categories) {
+      const ctx = document.getElementById('topCategoriesChart');
+      if (!ctx) return;
+
+      const labels = categories.map(c => c.category);
+      const amounts = categories.map(c => c.amount);
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Amount (₹)',
+            data: amounts,
+            backgroundColor: '#4f46e5',
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return inrFormatter.format(context.parsed.y);
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function (value) {
+                  return '₹' + value.toLocaleString('en-IN');
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+  </script>
+
+  <style>
+    .spending-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    .spending-table th,
+    .spending-table td {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .spending-table th {
+      background-color: var(--bg-color);
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .spending-table select,
+    .spending-table input {
+      width: 100%;
+      margin: 0;
+    }
+
+    .btn-icon {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 0.25rem;
+      transition: transform 0.2s;
+    }
+
+    .btn-icon:hover {
+      transform: scale(1.2);
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</body>
+
+</html>

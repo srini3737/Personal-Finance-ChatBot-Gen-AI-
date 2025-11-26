@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Chatbot - Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>💰 Personal Finance Chatbot</h1>
+            <nav>
+                <a href="/" class="active">Dashboard</a>
+                <a href="/chat.html">Chat</a>
+                <a href="/budget.html">Budget Summary</a>
+                <a href="/insights.html">Spending Insights</a>
+                <a href="/settings.html">Settings</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="hero-section mb-2">
+                <h2>Welcome to Your Financial Command Center</h2>
+                <p class="text-secondary">AI-powered insights to help you make smarter financial decisions. Get
+                    personalized advice, track your budget, and optimize your spending.</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-3 mb-2">
+                <div class="stat-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-label">Budget Analysis</div>
+                    <div class="stat-description">Track income, expenses, and savings rate with AI-powered insights
+                    </div>
+                    <a href="/budget.html" class="stat-link">Analyze Budget →</a>
+                </div>
+
+                <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                    <div class="stat-icon">🔍</div>
+                    <div class="stat-label">Spending Insights</div>
+                    <div class="stat-description">Identify patterns, red flags, and get personalized recommendations
+                    </div>
+                    <a href="/insights.html" class="stat-link">Get Insights →</a>
+                </div>
+
+                <div class="stat-card" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);">
+                    <div class="stat-icon">💬</div>
+                    <div class="stat-label">AI Chat Assistant</div>
+                    <div class="stat-description">Ask questions and get persona-aware financial guidance</div>
+                    <a href="/chat.html" class="stat-link">Start Chat →</a>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-2 mb-2">
+                <!-- Features Overview -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🎯 Key Features</h3>
+                    </div>
+
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">🎓</div>
+                            <div class="feature-content">
+                                <h4>Persona-Aware Advice</h4>
+                                <p class="text-secondary">Tailored guidance for students, professionals, parents,
+                                    freelancers, and retirees</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">💰</div>
+                            <div class="feature-content">
+                                <h4>Indian Currency Support</h4>
+                                <p class="text-secondary">All amounts displayed in ₹ with proper Indian locale
+                                    formatting</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">🤖</div>
+                            <div class="feature-content">
+                                <h4>Multi-Model AI</h4>
+                                <p class="text-secondary">Powered by IBM Granite for chat and Groq Llama for analysis
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">📈</div>
+                            <div class="feature-content">
+                                <h4>Visual Analytics</h4>
+                                <p class="text-secondary">Interactive charts and graphs for better understanding</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">🔒</div>
+                            <div class="feature-content">
+                                <h4>Privacy First</h4>
+                                <p class="text-secondary">Your data stays secure with local processing options</p>
+                            </div>
+                        </div>
+
+                        <div class="feature-item">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-content">
+                                <h4>Fast & Responsive</h4>
+                                <p class="text-secondary">Lightning-fast responses with optimized AI models</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">🚀 Quick Actions</h3>
+                    </div>
+
+                    <div class="quick-actions">
+                        <a href="/budget.html" class="action-card">
+                            <div class="action-icon">📊</div>
+                            <div class="action-content">
+                                <h4>Analyze My Budget</h4>
+                                <p class="text-secondary">Get detailed breakdown of income and expenses</p>
+                            </div>
+                            <div class="action-arrow">→</div>
+                        </a>
+
+                        <a href="/insights.html" class="action-card">
+                            <div class="action-icon">🔍</div>
+                            <div class="action-content">
+                                <h4>Review Spending</h4>
+                                <p class="text-secondary">Identify patterns and optimization opportunities</p>
+                            </div>
+                            <div class="action-arrow">→</div>
+                        </a>
+
+                        <a href="/chat.html" class="action-card">
+                            <div class="action-icon">💬</div>
+                            <div class="action-content">
+                                <h4>Ask AI Assistant</h4>
+                                <p class="text-secondary">Get personalized financial advice instantly</p>
+                            </div>
+                            <div class="action-arrow">→</div>
+                        </a>
+
+                        <a href="/settings.html" class="action-card">
+                            <div class="action-icon">⚙️</div>
+                            <div class="action-content">
+                                <h4>Configure Settings</h4>
+                                <p class="text-secondary">Set your persona and preferences</p>
+                            </div>
+                            <div class="action-arrow">→</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sample Visualization -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📈 Sample Budget Visualization</h3>
+                </div>
+                <p class="text-secondary mb-2">This is an example of how your financial data will be visualized with
+                    interactive charts.</p>
+
+                <div class="grid grid-2">
+                    <div>
+                        <h4 style="font-size: 1rem; margin-bottom: 1rem;">Monthly Budget Breakdown</h4>
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="budgetChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="font-size: 1rem; margin-bottom: 1rem;">Spending by Category</h4>
+                        <div class="chart-container" style="height: 300px;">
+                            <canvas id="spendingChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="grid grid-3 mt-2">
+                <div class="info-card">
+                    <div class="info-icon">🎯</div>
+                    <h4>Smart Recommendations</h4>
+                    <p class="text-secondary">Get AI-powered suggestions to optimize your finances based on your
+                        spending patterns</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">🚨</div>
+                    <h4>Red Flag Detection</h4>
+                    <p class="text-secondary">Automatically identify concerning patterns like overspending or unusual
+                        charges</p>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-icon">📱</div>
+                    <h4>Mobile Responsive</h4>
+                    <p class="text-secondary">Access your financial dashboard from any device, anywhere, anytime</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/static/app.js"></script>
+    <script>
+        // Create sample budget chart
+        const budgetCtx = document.getElementById('budgetChart');
+        new Chart(budgetCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Housing', 'Food', 'Transportation', 'Entertainment', 'Utilities', 'Savings'],
+                datasets: [{
+                    data: [30, 20, 15, 10, 10, 15],
+                    backgroundColor: [
+                        '#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 15,
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.label}: ${context.parsed}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Create sample spending chart
+        const spendingCtx = document.getElementById('spendingChart');
+        new Chart(spendingCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Spending (₹)',
+                    data: [12000, 15000, 13000, 14000, 16000, 13500],
+                    backgroundColor: '#4f46e5',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return '₹' + value.toLocaleString('en-IN');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <style>
+        .hero-section {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .hero-section h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-description {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin: 0.5rem 0 1rem 0;
+        }
+
+        .stat-link {
+            display: inline-block;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .stat-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-color);
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .feature-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .feature-content h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+        }
+
+        .feature-content p {
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .action-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: var(--bg-color);
+            border-radius: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .action-card:hover {
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(79, 70, 229, 0.2);
+        }
+
+        .action-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-content h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .action-content p {
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        .action-arrow {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            transition: transform 0.3s;
+        }
+
+        .action-card:hover .action-arrow {
+            transform: translateX(5px);
+        }
+
+        .info-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg-color);
+            border-radius: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .info-card h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+
+        .info-card p {
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        nav a.active {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--primary-color);
+        }
+    </style>
+</body>
+
+</html>

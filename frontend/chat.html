@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Personal Finance Chatbot</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1>💰 Personal Finance Chatbot</h1>
+            <nav>
+                <a href="index.html">Dashboard</a>
+                <a href="chat.html">Chat</a>
+                <a href="budget.html">Budget Summary</a>
+                <a href="insights.html">Spending Insights</a>
+                <a href="settings.html">Settings</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>💬 Financial Q&A Chat</h2>
+            <p class="text-secondary mb-2">Ask me anything about personal finance and get AI-powered advice tailored to
+                your persona.</p>
+
+            <div class="grid grid-2 mb-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Select Your Persona</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="personaSelect">Choose the persona that best describes you:</label>
+                        <select id="personaSelect">
+                            <option value="">General (No specific persona)</option>
+                            <option value="student">🎓 Student</option>
+                            <option value="salaried">💼 Salaried Professional</option>
+                            <option value="parent">👨‍👩‍👧 Parent</option>
+                            <option value="freelancer">💻 Freelancer</option>
+                            <option value="retiree">🏖️ Retiree</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Example Questions</h3>
+                    </div>
+                    <ul style="list-style: none; padding: 0; font-size: 0.875rem;">
+                        <li style="margin-bottom: 0.5rem;">💡 "How can I save money on a tight budget?"</li>
+                        <li style="margin-bottom: 0.5rem;">💡 "What's the best way to build an emergency fund?"</li>
+                        <li style="margin-bottom: 0.5rem;">💡 "Should I pay off debt or invest first?"</li>
+                        <li style="margin-bottom: 0.5rem;">💡 "How much should I save for retirement?"</li>
+                        <li style="margin-bottom: 0.5rem;">💡 "What are good investment options for beginners?"</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message message-bot">
+                        👋 Hello! I'm your personal finance assistant. Ask me anything about budgeting, saving,
+                        investing, or financial planning. I'll provide advice tailored to your situation!
+                    </div>
+                </div>
+
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Type your financial question here..."
+                        autocomplete="off">
+                    <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+
+            <div class="alert alert-warning mt-2">
+                <strong>Note:</strong> This chatbot provides general financial information and should not be considered
+                professional financial advice. Always consult with a qualified financial advisor for personalized
+                guidance.
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
